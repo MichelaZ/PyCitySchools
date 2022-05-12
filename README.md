@@ -5,7 +5,7 @@ The PyCity School Board wants to analyze the reading and math testing results fo
 
 ## Deliverable 1: Replacing the 9th grade reading and math scores at Thomas High School with NaN:
 
-If I just dropped the ninth grade THS students the total students would be incorrect. I don’t want to replace the data with a different value, because it will through off my averages. Instead I converted all the test results for THS 9th graders to NaNs so that they would be ignored in my .mean functions.
+Just dropping the ninth grade THS students would make the total students incorrect. I don’t want to replace the data with a different value, because it will throw off my averages. Instead I converted all the test results for THS 9th graders to NaNs so that they would be ignored in my .mean functions.
 
 ### Deliverable 1: Methods
 
