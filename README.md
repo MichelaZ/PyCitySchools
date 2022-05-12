@@ -162,7 +162,7 @@ per_school_summary_df["Per Student Budget"] = per_school_summary_df["Per Student
 ```
 ![Original per school summary](https://github.com/MichelaZ/PyCitySchools/blob/main/Resources/per_school_summary_df_unadjustedTHS.png)
 
-6. The per_school_summary_df is currently using the test score percentages with the NaNs for Thomas High School ninth graders. The passing values aren’t counting any nineth graders, but the total student counts are making the percentages seem lower than they should be. To fix this I used the .loc method to count the students in each grade 10-12 for THS and then created another variable with their sum.
+6. The per_school_summary_df is currently using the test score percentages with the NaNs for Thomas High School ninth graders. The passing values aren’t counting any ninth graders, but the total student counts are making the percentages seem lower than they should be. To fix this I used the .loc method to count the students in each grade 10-12 for THS and then created another variable with their sum.
 ```
 THS_grade_10 = student_data_df.loc[(student_data_df["grade"]== "10th")&(student_data_df["school_name"]=="Thomas High School")].count()['Student ID']
 THS_grade_11 = student_data_df.loc[(student_data_df["grade"]== "11th")&(student_data_df["school_name"]=="Thomas High School")].count()['Student ID']
@@ -204,6 +204,7 @@ per_school_summary_df.loc[["Thomas High School"],['% Overall Passing']] = THS_ov
 ![Per School summary with corrected THS data.](https://github.com/MichelaZ/PyCitySchools/blob/main/Resources/per_school_summary_df.png)
 
 *I found the top five and bottom five schools using the sort_values function.*
+
 __Top Five Schools:__
 ```
 Top_5 = per_school_summary_df.sort_values(["% Overall Passing"], ascending=False).head(5)
@@ -274,7 +275,7 @@ reading_scores_by_grade.index.name = None
 ![Math Scores by grade](https://github.com/MichelaZ/PyCitySchools/blob/main/Resources/math_scores_by_grade.png)
 ![Reading scores by grade](https://github.com/MichelaZ/PyCitySchools/blob/main/Resources/reading_scores_by_grade.png)
 
-The reading_scores_by_grade and math_scores_by_grade use the school_data_complete_df. They are not affected by replacing the ninth grader scores for THS, because they are grouped by both the nineth graders and the schools. There is little difference between grades from the same school. This means any outliers might indicate a problem with the data. 
+The reading_scores_by_grade and math_scores_by_grade use the school_data_complete_df. They are not affected by replacing the ninth grader scores for THS, because they are grouped by both the ninth graders and the schools. There is little difference between grades from the same school. This means any outliers might indicate a problem with the data. 
 
 If you wanted to look at the average grades for all the students in the district by grade, the code would have to be modified, because it may be somewhat affected by the missing values. This also probably wouldn’t be very useful as all the values would probably be very close to the averages from the district summary.
 
