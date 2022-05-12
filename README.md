@@ -1,11 +1,14 @@
 # PycitySchools
 ## Purpose:
+
 The PyCity School Board wants to analyze the reading and math testing results for the district. During the module I created an analysis, however they believe that there may have been scholastic dishonesty in the ninth grade class of Thomas High School. The purpose of this project is to remove those results from our data and preserve the rest of the data to repeat the analysis as well as provide an explanation of how these changes effect the data.
 
 ## Deliverable 1: Replacing the 9th grade reading and math scores at Thomas High School with NaN:
+
 If I just dropped the ninth grade THS students the total students would be incorrect. I don’t want to replace the data with a different value, because it will through off my averages. Instead I converted all the test results for THS 9th graders to NaNs so that they would be ignored in my .mean functions.
 
 ### Deliverable 1: Methods
+
 1. I Imported dependencies and loaded the data for the schools and the students into data frames. I cleaned the student names using formulas tested during the module. Normally I import all my dependencies in the first cell, so that’s what I’ve done here. The starter code wanted NumPy imported in the second cell, so it’s in the 2nd cell in the jupyter notebook.
 ```
 import pandas as pd
@@ -35,10 +38,13 @@ student_data_df.loc[(student_data_df["grade"]== "9th") & (student_data_df["schoo
 
 
 ## Deliverable 2: School District Analysis
+
 Now that all of the THS ninth grader’s test results have been converted to NaNs they need to be removed from anywhere they may affect our data and analysis.
 ### District Summary:
+
 The district summary in the original analysis just used a count of the students to for it’s % passing calculations. This may have some effect on the results, so for the % Passing Math, % Passing Reading, and % Overall Passing I removed the THS ninth graders from the total student count.
 #### District Summary: Methods
+
 1. I merged the data from the student_data_df and school_data_df together into one DataFrame.
 ```
 school_data_complete_df = pd.merge(student_data_df, school_data_df, how="left", on=["school_name", "school_name"])
@@ -98,6 +104,7 @@ district_summary_df["% Passing Reading"] = district_summary_df["% Passing Readin
 district_summary_df["% Overall Passing"] = district_summary_df["% Overall Passing"].map("{:.1f}".format)
 ```
 #### District Summary: Results
+
 ![District total summary](https://github.com/MichelaZ/PyCitySchools/blob/main/Resources/district_summary_df.png)
 
 There is not a significant difference in the percent of students who passed math and reading or who passed over all when we drop the THS 9th graders from the student count. This makes sense they make up about 1% of the overall population of students. 
@@ -110,8 +117,10 @@ There is not a significant difference in the percent of students who passed math
 
 
 ### School Summary:
+
 Even though removing the ninth graders from our count didn’t have a large effect on the overall data for the district, once we look deeper into the data it may have a larger effect. For example, although the THS freshmen only made up 1% of the district they make up 28% of THS students, so we can assume it influence the conclusions we can make from the data in our school summary. To combat this I removed the THS 9th graders from the THS total students and then calculated new percentages to make the per_school_summary_df which will be used to analyze the per capita spending, size and type.
 #### School Summary: Methods
+
 -  In the module I got the types, student count, total school budget,  per capita spending, average reading/math scores, percentage of students who passed math, percentage of students who passed reading, and percentage of students who passed math and reading and used them to make a DataFrame that summarizes the points for each school in the district. The starter code did this for me and I kept the code to avoid any naming discrepancies later. 
 ```
 per_school_types = school_data_df.set_index(["school_name"])["type"]
@@ -263,13 +272,14 @@ reading_scores_by_grade.index.name = None
 #### Math and Reading Scores by Grade: Results
 
 ![Math Scores by grade](https://github.com/MichelaZ/PyCitySchools/blob/main/Resources/math_scores_by_grade.png)
-![Reading scores by grade](https://github.com/MichelaZ/PyCitySchools/blob/main/Resources/reading_scores_by_grade.png
+![Reading scores by grade](https://github.com/MichelaZ/PyCitySchools/blob/main/Resources/reading_scores_by_grade.png)
 
 The reading_scores_by_grade and math_scores_by_grade use the school_data_complete_df. They are not affected by replacing the ninth grader scores for THS, because they are grouped by both the nineth graders and the schools. There is little difference between grades from the same school. This means any outliers might indicate a problem with the data. 
 
 If you wanted to look at the average grades for all the students in the district by grade, the code would have to be modified, because it may be somewhat affected by the missing values. This also probably wouldn’t be very useful as all the values would probably be very close to the averages from the district summary.
 
 ### Scores by School Spending:
+
 To create a dataframe of school data based on spending I created bins  that would have a relatively equal number of schools in each bin and named them. Then I used the .cut method to divide the per capita spending by my bins. I used the group by method to get the averages for each variable. Then I created and formatted the spending ranges per student dataframe.
 ```
 spending_bins = [0, 585, 630, 645, 675]
@@ -296,10 +306,12 @@ spending_summary_df["% Passing Reading"] = spending_summary_df["% Passing Readin
 spending_summary_df["% Overall Passing"] = spending_summary_df["% Overall Passing"].map("{:.0f}".format)
 ```
 #### Scores by School Spending: Results
+
 ![Spending Summary]( https://github.com/MichelaZ/PyCitySchools/blob/main/Resources/school_spending_df.png)
 THS is in the middle of per capita spending so the scores very greatly. If they make up a significant portion of the total count the THS ninth graders would lower the percentage results.
 
 ### Scores by School Size
+
 To create a dataframe of school data based on size I created bins  that would have a relatively equal number of schools in each bin and named them. Then I used the .cut method to divide total students for my bins. I used the group by method to get the averages for each variable. Then I created and formatted the dataframe.
 ```
 size_bins = [0, 999, 1999, 5000]
@@ -332,6 +344,7 @@ size_summary_df["% Overall Passing"] = size_summary_df["% Overall Passing"].map(
 If they make up a significant portion of the total count the THS ninth graders would lower the passing precents of medium school
 
 ### Scores by School Type
+
 To find the averages by type I used the groupby method to get the averages for each variable. Then I assembled them into a dataframe and formatted it.
 ```
 type_math_scores = per_school_summary_df.groupby(["School Type"]).mean()["Average Math Score"]
@@ -372,16 +385,19 @@ If they make up a significant portion of the total count the THS ninth graders i
 - Per capita spending is inversely related to performance.
 
 Charter schools do not typically perform better or worse than traditional public school, but research does seem to suggest that in disadvantaged populations there is performance improvement in charter schools. The PyCity results seem to support this. Charter schools are probably performing better than public schools because of the following:
+
 - Even though traditional schools have a higher per capita budget, the % of the budget they are spending on teachers and educational materials is probably lower than that of charter schools.
-- *Charter school performance had an inverse correlation with per capita spending.* Compared to charter schools, traditional public schools may have higher budgets because they are required to provide students with additional service such as transportation, food, and support services (National Conference of State Legislatures). It would be great to see a breakdown of the budgets to confirm this.
+    - *Charter school performance had an inverse correlation with per capita spending.* Compared to charter schools, traditional public schools may have higher budgets because they are required to provide students with additional service such as transportation, food, and support services (National Conference of State Legislatures). It would be great to see a breakdown of the budgets to confirm this.
 - The traditional public schools are over crowded.
--  *Medium and small school preform about the same, but large schools tend to preform significantly* (Condition of America's Public School Facilities: 1999). Large schools tend to be in urban areas with higher percentages of minorities and higher cost of living. They are more likely to be overcrowded which is correlated with poorer facilities and poor performance. *Only one Charter school is a large school.* This is probably the, because charter school are not forced to take students once they are at capacity; enrollment is either first come first serve or by lottery. So their infrastructure is built to handle the large number of students. Public schools, however, must take students even if they are over crowded.
+    -  *Medium and small school preform about the same, but large schools tend to preform significantly* (Condition of America's Public School Facilities: 1999). Large schools tend to be in urban areas with higher percentages of minorities and higher cost of living. They are more likely to be overcrowded which is correlated with poorer facilities and poor performance. *Only one Charter school is a large school.* This is probably the, because charter school are not forced to take students once they are at capacity; enrollment is either first come first serve or by lottery. So their infrastructure is built to handle the large number of students. Public schools, however, must take students even if they are over crowded.
 
 __Reference:__
+
 National Conference of State Legislatures. *Charter Schools Research and Report.* https://www.ncsl.org/research/education/charter-schools-research-and-report.aspx
 
 Condition of America's Public School Facilities: 1999, *National Center for Education Statistics.* https://nces.ed.gov/surveys/frss/publications/2000032/index.asp?sectionid=8
 
 __Author’s Notes:__
-The comments have been removed from the code in the methods sections to reduce redundancies.
-There may be some differences between the method section and the PyCitySchool_Challenge file to improve legibility.
+
+- The comments have been removed from the code in the methods sections to reduce redundancies.
+- There may be some differences between the method section and the PyCitySchool_Challenge file to improve legibility.
