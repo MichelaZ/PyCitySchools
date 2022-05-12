@@ -1,7 +1,7 @@
 # PycitySchools
 ## Purpose:
 
-The PyCity School Board wants to analyze the reading and math testing results for the district. During the module I created an analysis, however they believe that there may have been scholastic dishonesty in the ninth grade class of Thomas High School. The purpose of this project is to remove those results from our data and preserve the rest of the data to repeat the analysis as well as provide an explanation of how these changes effect the data.
+The PyCity School Board wants to analyze the reading and math testing results for the district. During the module I created an analysis, however they believe that there may have been scholastic dishonesty in the ninth grade class of Thomas High School. The purpose of this project is to remove those results from the data and preserve the rest of the data to repeat the analysis as well as provide an explanation of how these changes effect the data.
 
 ## Deliverable 1: Replacing the 9th grade reading and math scores at Thomas High School with NaN:
 
